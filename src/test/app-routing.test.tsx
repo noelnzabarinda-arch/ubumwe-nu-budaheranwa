@@ -20,6 +20,8 @@ describe("App routing", () => {
     ["/our-history/the-beginning", "/our-history/$slug"],
     ["/archive/timeline", "/archive/$collection"],
     ["/archive/contribute", "/archive/$collection"],
+    ["/timeline", "/timeline/"],
+    ["/timeline/the-beginning", "/timeline/$year"],
   ])("matches the archive destination %s", (path, routeId) => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     expect(router.matchRoutes(path).at(-1)?.routeId).toBe(routeId);

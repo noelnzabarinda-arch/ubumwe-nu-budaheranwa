@@ -1,8 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Archive, ArrowLeft, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { archiveHead, collectionNames } from "@/lib/archive-data";
 export const Route = createFileRoute("/archive/$collection")({
+  beforeLoad: ({ params }) => {
+    if (params.collection === "timeline") throw redirect({ to: "/timeline", statusCode: 301 });
+  },
   head: ({ params }) =>
     archiveHead(
       collectionNames[params.collection] ?? "Collection unavailable",

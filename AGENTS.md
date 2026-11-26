@@ -36,3 +36,5 @@ use the editor.
 - Keep the existing TanStack file routing and React/TypeScript stack; this preserves the template runtime and typed navigation.
 - Share archive navigation, footer, story cards, and image sources in `src/components/archive`; keep content and filtering in a browser-safe data module for future data integration.
 - Keep this phase frontend-only, with sample story records and honest placeholder destinations; verified historical content must replace samples before publication as factual history.
+- Keep article details at existing story URLs and timeline views under `/timeline`, with the legacy timeline collection redirecting there; this preserves Phase 01 links and the unchanged shared shell.
+- Keep timeline records and pure filtering/sorting in a browser-safe module, with URL-based search state and undated previews following dated records; this supports later data integration without inventing chronology.

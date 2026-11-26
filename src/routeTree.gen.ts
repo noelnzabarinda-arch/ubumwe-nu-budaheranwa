@@ -11,9 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OurHistoryRouteImport } from './routes/our-history'
+import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as ArchiveCollectionRouteImport } from './routes/archive/$collection'
 import { Route as OurHistoryIndexRouteImport } from './routes/our-history.index'
 import { Route as OurHistorySlugRouteImport } from './routes/our-history.$slug'
+import { Route as TimelineIndexRouteImport } from './routes/timeline.index'
+import { Route as TimelineYearRouteImport } from './routes/timeline.$year'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const OurHistoryRoute = OurHistoryRouteImport.update({
   id: '/our-history',
   path: '/our-history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArchiveCollectionRoute = ArchiveCollectionRouteImport.update({
@@ -40,50 +48,81 @@ const OurHistorySlugRoute = OurHistorySlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => OurHistoryRoute,
 } as any)
+const TimelineIndexRoute = TimelineIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TimelineRoute,
+} as any)
+const TimelineYearRoute = TimelineYearRouteImport.update({
+  id: '/$year',
+  path: '/$year',
+  getParentRoute: () => TimelineRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/our-history': typeof OurHistoryRouteWithChildren
+  '/timeline': typeof TimelineRouteWithChildren
   '/archive/$collection': typeof ArchiveCollectionRoute
   '/our-history/$slug': typeof OurHistorySlugRoute
+  '/timeline/$year': typeof TimelineYearRoute
   '/our-history/': typeof OurHistoryIndexRoute
+  '/timeline/': typeof TimelineIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
   '/our-history/$slug': typeof OurHistorySlugRoute
+  '/timeline/$year': typeof TimelineYearRoute
   '/our-history': typeof OurHistoryIndexRoute
+  '/timeline': typeof TimelineIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/our-history': typeof OurHistoryRouteWithChildren
+  '/timeline': typeof TimelineRouteWithChildren
   '/archive/$collection': typeof ArchiveCollectionRoute
   '/our-history/$slug': typeof OurHistorySlugRoute
+  '/timeline/$year': typeof TimelineYearRoute
   '/our-history/': typeof OurHistoryIndexRoute
+  '/timeline/': typeof TimelineIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/our-history'
+    | '/timeline'
     | '/archive/$collection'
     | '/our-history/$slug'
+    | '/timeline/$year'
     | '/our-history/'
+    | '/timeline/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/archive/$collection' | '/our-history/$slug' | '/our-history'
+  to:
+    | '/'
+    | '/archive/$collection'
+    | '/our-history/$slug'
+    | '/timeline/$year'
+    | '/our-history'
+    | '/timeline'
   id:
     | '__root__'
     | '/'
     | '/our-history'
+    | '/timeline'
     | '/archive/$collection'
     | '/our-history/$slug'
+    | '/timeline/$year'
     | '/our-history/'
+    | '/timeline/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   OurHistoryRoute: typeof OurHistoryRouteWithChildren
+  TimelineRoute: typeof TimelineRouteWithChildren
   ArchiveCollectionRoute: typeof ArchiveCollectionRoute
 }
 
@@ -101,6 +140,13 @@ declare module '@tanstack/react-router' {
       path: '/our-history'
       fullPath: '/our-history'
       preLoaderRoute: typeof OurHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/archive/$collection': {
@@ -124,6 +170,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OurHistorySlugRouteImport
       parentRoute: typeof OurHistoryRoute
     }
+    '/timeline/': {
+      id: '/timeline/'
+      path: '/'
+      fullPath: '/timeline/'
+      preLoaderRoute: typeof TimelineIndexRouteImport
+      parentRoute: typeof TimelineRoute
+    }
+    '/timeline/$year': {
+      id: '/timeline/$year'
+      path: '/$year'
+      fullPath: '/timeline/$year'
+      preLoaderRoute: typeof TimelineYearRouteImport
+      parentRoute: typeof TimelineRoute
+    }
   }
 }
 
@@ -141,9 +201,24 @@ const OurHistoryRouteWithChildren = OurHistoryRoute._addFileChildren(
   OurHistoryRouteChildren,
 )
 
+interface TimelineRouteChildren {
+  TimelineYearRoute: typeof TimelineYearRoute
+  TimelineIndexRoute: typeof TimelineIndexRoute
+}
+
+const TimelineRouteChildren: TimelineRouteChildren = {
+  TimelineYearRoute: TimelineYearRoute,
+  TimelineIndexRoute: TimelineIndexRoute,
+}
+
+const TimelineRouteWithChildren = TimelineRoute._addFileChildren(
+  TimelineRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   OurHistoryRoute: OurHistoryRouteWithChildren,
+  TimelineRoute: TimelineRouteWithChildren,
   ArchiveCollectionRoute: ArchiveCollectionRoute,
 }
 export const routeTree = rootRouteImport
