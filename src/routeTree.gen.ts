@@ -10,33 +10,81 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OurHistoryRouteImport } from './routes/our-history'
+import { Route as ArchiveCollectionRouteImport } from './routes/archive/$collection'
+import { Route as OurHistoryIndexRouteImport } from './routes/our-history.index'
+import { Route as OurHistorySlugRouteImport } from './routes/our-history.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OurHistoryRoute = OurHistoryRouteImport.update({
+  id: '/our-history',
+  path: '/our-history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArchiveCollectionRoute = ArchiveCollectionRouteImport.update({
+  id: '/archive/$collection',
+  path: '/archive/$collection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurHistoryIndexRoute = OurHistoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OurHistoryRoute,
+} as any)
+const OurHistorySlugRoute = OurHistorySlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => OurHistoryRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/our-history': typeof OurHistoryRouteWithChildren
+  '/archive/$collection': typeof ArchiveCollectionRoute
+  '/our-history/$slug': typeof OurHistorySlugRoute
+  '/our-history/': typeof OurHistoryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/archive/$collection': typeof ArchiveCollectionRoute
+  '/our-history/$slug': typeof OurHistorySlugRoute
+  '/our-history': typeof OurHistoryIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/our-history': typeof OurHistoryRouteWithChildren
+  '/archive/$collection': typeof ArchiveCollectionRoute
+  '/our-history/$slug': typeof OurHistorySlugRoute
+  '/our-history/': typeof OurHistoryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/our-history'
+    | '/archive/$collection'
+    | '/our-history/$slug'
+    | '/our-history/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/archive/$collection' | '/our-history/$slug' | '/our-history'
+  id:
+    | '__root__'
+    | '/'
+    | '/our-history'
+    | '/archive/$collection'
+    | '/our-history/$slug'
+    | '/our-history/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OurHistoryRoute: typeof OurHistoryRouteWithChildren
+  ArchiveCollectionRoute: typeof ArchiveCollectionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +96,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/our-history': {
+      id: '/our-history'
+      path: '/our-history'
+      fullPath: '/our-history'
+      preLoaderRoute: typeof OurHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/archive/$collection': {
+      id: '/archive/$collection'
+      path: '/archive/$collection'
+      fullPath: '/archive/$collection'
+      preLoaderRoute: typeof ArchiveCollectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-history/': {
+      id: '/our-history/'
+      path: '/'
+      fullPath: '/our-history/'
+      preLoaderRoute: typeof OurHistoryIndexRouteImport
+      parentRoute: typeof OurHistoryRoute
+    }
+    '/our-history/$slug': {
+      id: '/our-history/$slug'
+      path: '/$slug'
+      fullPath: '/our-history/$slug'
+      preLoaderRoute: typeof OurHistorySlugRouteImport
+      parentRoute: typeof OurHistoryRoute
+    }
   }
 }
 
+interface OurHistoryRouteChildren {
+  OurHistorySlugRoute: typeof OurHistorySlugRoute
+  OurHistoryIndexRoute: typeof OurHistoryIndexRoute
+}
+
+const OurHistoryRouteChildren: OurHistoryRouteChildren = {
+  OurHistorySlugRoute: OurHistorySlugRoute,
+  OurHistoryIndexRoute: OurHistoryIndexRoute,
+}
+
+const OurHistoryRouteWithChildren = OurHistoryRoute._addFileChildren(
+  OurHistoryRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OurHistoryRoute: OurHistoryRouteWithChildren,
+  ArchiveCollectionRoute: ArchiveCollectionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

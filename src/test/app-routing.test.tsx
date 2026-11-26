@@ -14,4 +14,14 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it.each([
+    ["/our-history", "/our-history/"],
+    ["/our-history/the-beginning", "/our-history/$slug"],
+    ["/archive/timeline", "/archive/$collection"],
+    ["/archive/contribute", "/archive/$collection"],
+  ])("matches the archive destination %s", (path, routeId) => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    expect(router.matchRoutes(path).at(-1)?.routeId).toBe(routeId);
+  });
 });
