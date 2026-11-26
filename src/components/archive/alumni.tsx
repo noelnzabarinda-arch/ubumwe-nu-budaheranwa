@@ -1,5 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, ShieldCheck, UserRound } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  CalendarDays,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 import type { AlumniProfile, AlumniStory } from "@/lib/alumni-data";
 import { alumniYearLabel } from "@/lib/alumni-data";
 
@@ -105,7 +112,11 @@ export function AlumniFilters({
       </label>
       <label className="filter-select">
         <span className="sr-only">Filter by category</span>
-        <select aria-label="Filter by category" value={category} onChange={(event) => onCategoryChange(event.target.value)}>
+        <select
+          aria-label="Filter by category"
+          value={category}
+          onChange={(event) => onCategoryChange(event.target.value)}
+        >
           <option value="all">All categories</option>
           <option value="former-student">Former Students</option>
           <option value="former-staff">Former Teachers & Staff</option>
@@ -113,28 +124,50 @@ export function AlumniFilters({
       </label>
       <label className="filter-select">
         <span className="sr-only">Filter by graduation year</span>
-        <select aria-label="Filter by graduation year" value={year} onChange={(event) => onYearChange(event.target.value)}>
+        <select
+          aria-label="Filter by graduation year"
+          value={year}
+          onChange={(event) => onYearChange(event.target.value)}
+        >
           <option value="all">All graduation years</option>
-          {years.map((item) => <option key={item} value={item}>{item}</option>)}
+          {years.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
           <option value="unverified">Year unverified</option>
         </select>
       </label>
       <label className="filter-select">
         <span className="sr-only">Filter by class or program</span>
-        <select aria-label="Filter by class or program" value={program} onChange={(event) => onProgramChange(event.target.value)}>
+        <select
+          aria-label="Filter by class or program"
+          value={program}
+          onChange={(event) => onProgramChange(event.target.value)}
+        >
           <option value="all">All classes & programs</option>
-          {programs.map((item) => <option key={item} value={item}>{item}</option>)}
+          {programs.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
           <option value="unverified">Program unverified</option>
         </select>
       </label>
       <label className="filter-select">
         <span className="sr-only">Sort alumni</span>
-        <select aria-label="Sort alumni" value={order} onChange={(event) => onOrderChange(event.target.value)}>
+        <select
+          aria-label="Sort alumni"
+          value={order}
+          onChange={(event) => onOrderChange(event.target.value)}
+        >
           <option value="alphabetical">Alphabetical</option>
           <option value="chronological">Chronological</option>
         </select>
       </label>
-      <button className="alumni-reset" type="button" onClick={onReset}>Reset filters</button>
+      <button className="alumni-reset" type="button" onClick={onReset}>
+        Reset filters
+      </button>
     </div>
   );
 }
@@ -169,7 +202,9 @@ export function AlumniProfileHeader({ profile }: { profile: AlumniProfile }) {
       <header className="alumni-profile-header">
         <AlumniPortrait large />
         <div>
-          <span className="eyebrow"><span className="gold-rule" /> PROFILE STATUS: UNVERIFIED</span>
+          <span className="eyebrow">
+            <span className="gold-rule" /> PROFILE STATUS: UNVERIFIED
+          </span>
           <h1>{profile.name}</h1>
           <p className="alumni-profile-category">
             {profile.category === "former-student"
@@ -180,10 +215,14 @@ export function AlumniProfileHeader({ profile }: { profile: AlumniProfile }) {
           </p>
           <p>{profile.introduction}</p>
           <div className="alumni-profile-meta">
-            <span><CalendarDays size={14} /> {alumniYearLabel(profile)}</span>
+            <span>
+              <CalendarDays size={14} /> {alumniYearLabel(profile)}
+            </span>
             {profile.program && <span>{profile.program}</span>}
             {profile.position && <span>{profile.position}</span>}
-            <span><ShieldCheck size={14} /> Verification required</span>
+            <span>
+              <ShieldCheck size={14} /> Verification required
+            </span>
           </div>
         </div>
       </header>
@@ -206,11 +245,19 @@ export function AlumniDetailSection({
 }) {
   return (
     <section className="alumni-detail-section">
-      <span className="eyebrow">{number} / {eyebrow}</span>
+      <span className="eyebrow">
+        {number} / {eyebrow}
+      </span>
       <h2>{title}</h2>
-      {paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      {paragraphs?.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
       {items && items.length > 0 ? (
-        <ul>{items.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>
+          {items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
       ) : (
         <p>No verified information is currently available.</p>
       )}
@@ -225,7 +272,10 @@ export function AlumniMediaGallery() {
       <h2>Photographs & visual records</h2>
       <div className="alumni-media-empty">
         <UserRound size={28} strokeWidth={1.2} />
-        <p>No permission-cleared photographs are available. Images will include captions, dates, and sources when verified.</p>
+        <p>
+          No permission-cleared photographs are available. Images will include captions, dates, and
+          sources when verified.
+        </p>
       </div>
     </section>
   );
@@ -268,12 +318,16 @@ export function AlumniProfileNavigation({
           <Link to="/alumni/$slug" params={{ slug: previous.slug }}>
             <ArrowLeft size={14} /> Previous Profile
           </Link>
-        ) : <span />}
+        ) : (
+          <span />
+        )}
         {next ? (
           <Link to="/alumni/$slug" params={{ slug: next.slug }}>
             Next Profile <ArrowRight size={14} />
           </Link>
-        ) : <span />}
+        ) : (
+          <span />
+        )}
       </div>
     </section>
   );

@@ -19,9 +19,7 @@ describe("archive search", () => {
     expect(archiveSearchItems.filter((item) => item.type === "alumni")).toEqual([]);
     expect(archiveSearchItems.filter((item) => item.type === "gallery")).toHaveLength(9);
     expect(archiveSearchItems.filter((item) => item.type === "documents")).toHaveLength(7);
-    expect(searchArchive("gallery").map((item) => item.type)).toEqual(
-      Array(9).fill("gallery"),
-    );
+    expect(searchArchive("gallery").map((item) => item.type)).toEqual(Array(9).fill("gallery"));
     expect(searchArchive("documents").filter((item) => item.type === "documents")).toHaveLength(7);
   });
 
@@ -33,10 +31,12 @@ describe("archive search", () => {
       { ...base, id: "old", year: 2000 },
       { ...base, id: "new", year: 2020 },
     ];
-    expect(filterArchiveSearch(fixtures, "stories", "all", "newest", "story").map((item) => item.id))
-      .toEqual(["new", "old", "undated"]);
-    expect(filterArchiveSearch(fixtures, "stories", "2000", "relevance", "story").map((item) => item.id))
-      .toEqual(["old"]);
+    expect(
+      filterArchiveSearch(fixtures, "stories", "all", "newest", "story").map((item) => item.id),
+    ).toEqual(["new", "old", "undated"]);
+    expect(
+      filterArchiveSearch(fixtures, "stories", "2000", "relevance", "story").map((item) => item.id),
+    ).toEqual(["old"]);
     expect(archiveSearchYears(fixtures)).toEqual(["2020", "2000"]);
   });
 });

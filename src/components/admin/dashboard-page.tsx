@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { useState, type ReactNode } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Archive,
   ArrowDownRight,
@@ -46,6 +46,30 @@ const navigation: { label: string; icon: LucideIcon }[] = [
   { label: "Documents Management", icon: FileText },
   { label: "Sources & Verification", icon: ShieldCheck },
   { label: "Settings", icon: Settings },
+];
+
+const navigationTargets: Record<string, string> = {
+  Dashboard: "/admin/dashboard",
+  "History Management": "/admin/history",
+  "Timeline Management": "/admin/timeline",
+  "Leadership Management": "/admin/leadership",
+  "Events Management": "/admin/events",
+  "Alumni & Staff Management": "/admin/alumni-staff",
+  "Gallery & Media Management": "/admin/gallery",
+  "Documents Management": "/admin/documents",
+  "Sources & Verification": "/admin/sources",
+  Settings: "/admin/settings",
+};
+
+const globalSearchRecords = [
+  { title: "Historical Story Collection", group: "Historical Stories", to: "/admin/history" },
+  { title: "Timeline Record", group: "Timeline Events", to: "/admin/timeline" },
+  { title: "Leadership Register", group: "Leaders", to: "/admin/leadership" },
+  { title: "Important Events", group: "Important Events", to: "/admin/events" },
+  { title: "Alumni and Staff Directory", group: "Alumni & Staff", to: "/admin/alumni-staff" },
+  { title: "Gallery Media", group: "Gallery Media", to: "/admin/gallery" },
+  { title: "Demonstration Document", group: "Documents", to: "/admin/documents" },
+  { title: "Archive Source Record", group: "Sources", to: "/admin/sources" },
 ];
 
 const statistics: {
@@ -165,7 +189,18 @@ function StatusBadge({ status }: { status: RecordStatus }) {
   return <span className={`admin-status ${className}`}>{status}</span>;
 }
 
-export function AdminDashboardPage() {
+export function AdminDashboardPage({
+  children,
+  pageTitle = "Dashboard Overview",
+  activePage = "Dashboard",
+  showGlobalSearch = true,
+}: {
+  children?: ReactNode;
+  pageTitle?: string;
+  activePage?: string;
+  showGlobalSearch?: boolean;
+}) {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -182,6 +217,11 @@ export function AdminDashboardPage() {
   });
 
   const openPlaceholder = (destination: string) => {
+    if (destination === "Leadership Management") {
+      void navigate({ to: "/admin/leadership" });
+      setSidebarOpen(false);
+      return;
+    }
     setNotice(`${destination} is not available yet. This dashboard preview is frontend-only.`);
     setSidebarOpen(false);
   };
@@ -213,27 +253,16 @@ export function AdminDashboardPage() {
         </div>
         <span className="admin-sidebar-label">WORKSPACE</span>
         <nav className="admin-nav">
-          {navigation.map(({ label, icon: Icon }) =>
-            label === "Dashboard" ? (
-              <Link
-                key={label}
-                to="/admin/dashboard"
-                className="admin-nav-link is-active"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <Icon size={17} /> <span>{label}</span>
-              </Link>
-            ) : (
-              <button
-                type="button"
-                key={label}
-                className="admin-nav-link"
-                onClick={() => openPlaceholder(label)}
-              >
-                <Icon size={17} /> <span>{label}</span>
-              </button>
-            ),
-          )}
+          {navigation.map(({ label, icon: Icon }) => (
+            <Link
+              key={label}
+              to={navigationTargets[label]}
+              className={`admin-nav-link${activePage === label ? " is-active" : ""}`}
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Icon size={17} /> <span>{label}</span>
+            </Link>
+          ))}
         </nav>
         <div className="admin-sidebar-bottom">
           <div className="admin-sidebar-help">
@@ -263,27 +292,55 @@ export function AdminDashboardPage() {
             </button>
             <div>
               <span className="admin-breadcrumb">
-                Administration <span>/</span> Overview
+                Admin <span>/</span> {pageTitle}
               </span>
-              <h1>Dashboard Overview</h1>
+              <h1>{pageTitle}</h1>
             </div>
           </div>
           <div className="admin-topbar-actions">
-            <label className="admin-global-search">
-              <Search size={16} aria-hidden="true" />
-              <input
-                type="search"
-                aria-label="Search admin records"
-                placeholder="Search records..."
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-              />
-              {search && (
-                <button type="button" aria-label="Clear search" onClick={() => setSearch("")}>
-                  <X size={14} />
-                </button>
-              )}
-            </label>
+            {showGlobalSearch && (
+              <div className="admin-global-search-wrap">
+                <label className="admin-global-search">
+                  <Search size={16} aria-hidden="true" />
+                  <input
+                    type="search"
+                    aria-label="Search admin records"
+                    placeholder="Search records..."
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                  />
+                  {search && (
+                    <button type="button" aria-label="Clear search" onClick={() => setSearch("")}>
+                      <X size={14} />
+                    </button>
+                  )}
+                </label>
+                {search && (
+                  <div
+                    className="admin-global-results"
+                    role="region"
+                    aria-label="Global search results"
+                  >
+                    {globalSearchRecords
+                      .filter((record) =>
+                        `${record.title} ${record.group}`
+                          .toLowerCase()
+                          .includes(search.toLowerCase()),
+                      )
+                      .map((record) => (
+                        <Link
+                          key={`${record.group}-${record.title}`}
+                          to={record.to}
+                          onClick={() => setSearch("")}
+                        >
+                          <span>{record.group}</span>
+                          <strong>{record.title}</strong>
+                        </Link>
+                      ))}
+                  </div>
+                )}
+              </div>
+            )}
             <div className="admin-profile-wrap">
               <button
                 type="button"
@@ -302,12 +359,18 @@ export function AdminDashboardPage() {
               {profileOpen && (
                 <div className="admin-profile-menu" role="menu">
                   <span className="admin-profile-menu-label">DEMO PROFILE</span>
+                  <Link to="/admin/settings" role="menuitem" onClick={() => setProfileOpen(false)}>
+                    <UserRound size={15} /> Admin Profile
+                  </Link>
+                  <Link to="/admin/settings" role="menuitem" onClick={() => setProfileOpen(false)}>
+                    <Settings size={15} /> Settings
+                  </Link>
                   <button
                     type="button"
                     role="menuitem"
-                    onClick={() => openPlaceholder("Profile settings")}
+                    onClick={() => openPlaceholder("Help / Documentation")}
                   >
-                    <UserRound size={15} /> Profile settings
+                    <CircleHelp size={15} /> Help / Documentation
                   </button>
                   <Link to="/admin/login" role="menuitem" onClick={() => setProfileOpen(false)}>
                     <LogOut size={15} /> Return to sign in
@@ -344,259 +407,268 @@ export function AdminDashboardPage() {
             </div>
           )}
 
-          <section className="admin-stats-grid" aria-label="Demonstration overview statistics">
-            {statistics.map(({ label, value, icon: Icon, change, positive }) => (
-              <article className="admin-stat-card" key={label}>
-                <div className="admin-stat-top">
-                  <span className="admin-stat-icon">
-                    <Icon size={17} />
-                  </span>
-                  <MoreHorizontal size={17} className="admin-stat-more" />
-                </div>
-                <span className="admin-stat-label">{label}</span>
-                <div className="admin-stat-bottom">
-                  <strong>{value}</strong>
-                  <span className={positive ? "admin-stat-change" : "admin-stat-change is-alert"}>
-                    {positive ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />} {change}
-                  </span>
-                </div>
-              </article>
-            ))}
-          </section>
-
-          <div className="admin-overview-grid">
-            <section className="admin-panel admin-activity-panel">
-              <div className="admin-panel-heading">
-                <div>
-                  <h2>Recent Activity</h2>
-                  <p>Latest actions across sample records</p>
-                </div>
-                <button
-                  type="button"
-                  className="admin-text-button"
-                  onClick={() => openPlaceholder("Activity history")}
-                >
-                  View all
-                </button>
-              </div>
-              <div className="admin-activity-list">
-                {activityItems.map((item) => (
-                  <article className="admin-activity-item" key={item.title}>
-                    <span className="admin-activity-mark">
-                      <Clock3 size={15} />
-                    </span>
-                    <div className="admin-activity-copy">
-                      <strong>{item.title}</strong>
-                      <span>{item.action}</span>
+          {children ?? (
+            <>
+              <section className="admin-stats-grid" aria-label="Demonstration overview statistics">
+                {statistics.map(({ label, value, icon: Icon, change, positive }) => (
+                  <article className="admin-stat-card" key={label}>
+                    <div className="admin-stat-top">
+                      <span className="admin-stat-icon">
+                        <Icon size={17} />
+                      </span>
+                      <MoreHorizontal size={17} className="admin-stat-more" />
                     </div>
-                    <time>{item.date}</time>
-                    <StatusBadge status={item.status} />
+                    <span className="admin-stat-label">{label}</span>
+                    <div className="admin-stat-bottom">
+                      <strong>{value}</strong>
+                      <span
+                        className={positive ? "admin-stat-change" : "admin-stat-change is-alert"}
+                      >
+                        {positive ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}{" "}
+                        {change}
+                      </span>
+                    </div>
                   </article>
                 ))}
-              </div>
-            </section>
+              </section>
 
-            <section className="admin-panel admin-verification-panel">
-              <div className="admin-panel-heading">
-                <div>
-                  <h2>Verification Summary</h2>
-                  <p>Sample records by review state</p>
-                </div>
-                <ShieldCheck size={18} className="admin-panel-heading-icon" />
-              </div>
-              <div className="admin-verification-total">
-                <strong>100</strong>
-                <span>demonstration records</span>
-              </div>
-              <div className="admin-verification-row">
-                <span>
-                  <i className="verification-dot pending" /> Pending review
-                </span>
-                <strong>25</strong>
-              </div>
-              <div className="admin-verification-row">
-                <span>
-                  <i className="verification-dot verified" /> Verified
-                </span>
-                <strong>73</strong>
-              </div>
-              <div className="admin-verification-row">
-                <span>
-                  <i className="verification-dot correction" /> Needs correction
-                </span>
-                <strong>2</strong>
-              </div>
-              <button
-                type="button"
-                className="admin-review-button"
-                onClick={() => openPlaceholder("Sources & Verification")}
-              >
-                Review records <ArrowUpRight size={14} />
-              </button>
-            </section>
-          </div>
-
-          <div className="admin-overview-grid admin-lower-grid">
-            <section className="admin-panel admin-content-panel">
-              <div className="admin-panel-heading">
-                <div>
-                  <h2>Content Overview</h2>
-                  <p>Sample status breakdown by category</p>
-                </div>
-                <span className="admin-demo-mini-tag">DEMO</span>
-              </div>
-              <div className="admin-content-legend">
-                <span>
-                  <i className="content-dot published" /> Published
-                </span>
-                <span>
-                  <i className="content-dot draft" /> Draft
-                </span>
-                <span>
-                  <i className="content-dot pending" /> Pending review
-                </span>
-              </div>
-              <div className="admin-category-list">
-                {contentCategories.map((category) => (
-                  <div className="admin-category-row" key={category.label}>
-                    <div className="admin-category-info">
-                      <strong>{category.label}</strong>
-                      <span>{category.total} sample records</span>
+              <div className="admin-overview-grid">
+                <section className="admin-panel admin-activity-panel">
+                  <div className="admin-panel-heading">
+                    <div>
+                      <h2>Recent Activity</h2>
+                      <p>Latest actions across sample records</p>
                     </div>
-                    <div
-                      className="admin-category-bars"
-                      aria-label={`${category.published} published, ${category.draft} drafts, ${category.pending} pending review`}
+                    <button
+                      type="button"
+                      className="admin-text-button"
+                      onClick={() => openPlaceholder("Activity history")}
                     >
-                      <span
-                        className="published"
-                        style={{ width: `${(category.published / category.total) * 100}%` }}
-                      />
-                      <span
-                        className="draft"
-                        style={{ width: `${(category.draft / category.total) * 100}%` }}
-                      />
-                      <span
-                        className="pending"
-                        style={{ width: `${(category.pending / category.total) * 100}%` }}
-                      />
-                    </div>
-                    <span className="admin-category-count">{category.total}</span>
+                      View all
+                    </button>
                   </div>
-                ))}
-              </div>
-              <div className="admin-content-totals">
-                <span>
-                  <strong>20</strong> Draft records
-                </span>
-                <span>
-                  <strong>73</strong> Published records
-                </span>
-                <span>
-                  <strong>25</strong> Pending verification
-                </span>
-              </div>
-            </section>
+                  <div className="admin-activity-list">
+                    {activityItems.map((item) => (
+                      <article className="admin-activity-item" key={item.title}>
+                        <span className="admin-activity-mark">
+                          <Clock3 size={15} />
+                        </span>
+                        <div className="admin-activity-copy">
+                          <strong>{item.title}</strong>
+                          <span>{item.action}</span>
+                        </div>
+                        <time>{item.date}</time>
+                        <StatusBadge status={item.status} />
+                      </article>
+                    ))}
+                  </div>
+                </section>
 
-            <section className="admin-panel admin-quick-actions-panel">
-              <div className="admin-panel-heading">
-                <div>
-                  <h2>Quick Actions</h2>
-                  <p>Management pages are future placeholders</p>
-                </div>
-              </div>
-              <div className="admin-quick-actions">
-                {quickActions.map(({ label, icon: Icon, target }) => (
-                  <button type="button" key={label} onClick={() => openPlaceholder(target)}>
+                <section className="admin-panel admin-verification-panel">
+                  <div className="admin-panel-heading">
+                    <div>
+                      <h2>Verification Summary</h2>
+                      <p>Sample records by review state</p>
+                    </div>
+                    <ShieldCheck size={18} className="admin-panel-heading-icon" />
+                  </div>
+                  <div className="admin-verification-total">
+                    <strong>100</strong>
+                    <span>demonstration records</span>
+                  </div>
+                  <div className="admin-verification-row">
                     <span>
-                      <Icon size={17} />
+                      <i className="verification-dot pending" /> Pending review
                     </span>
-                    <strong>{label}</strong>
-                    <ArrowUpRight size={14} className="admin-quick-arrow" />
+                    <strong>25</strong>
+                  </div>
+                  <div className="admin-verification-row">
+                    <span>
+                      <i className="verification-dot verified" /> Verified
+                    </span>
+                    <strong>73</strong>
+                  </div>
+                  <div className="admin-verification-row">
+                    <span>
+                      <i className="verification-dot correction" /> Needs correction
+                    </span>
+                    <strong>2</strong>
+                  </div>
+                  <button
+                    type="button"
+                    className="admin-review-button"
+                    onClick={() => openPlaceholder("Sources & Verification")}
+                  >
+                    Review records <ArrowUpRight size={14} />
                   </button>
-                ))}
+                </section>
               </div>
-            </section>
-          </div>
 
-          <section className="admin-panel admin-records-panel">
-            <div className="admin-panel-heading admin-records-heading">
-              <div>
-                <h2>Recently Added Records</h2>
-                <p>Example records for interface preview only</p>
-              </div>
-              <label className="admin-status-filter">
-                <span className="sr-only">Filter records by status</span>
-                <select
-                  value={statusFilter}
-                  onChange={(event) => setStatusFilter(event.target.value)}
-                >
-                  <option value="all">All statuses</option>
-                  <option value="Draft">Draft</option>
-                  <option value="Published">Published</option>
-                  <option value="Pending review">Pending review</option>
-                </select>
-                <ChevronDown size={14} />
-              </label>
-            </div>
-            <div className="admin-table-scroll">
-              <table className="admin-records-table">
-                <thead>
-                  <tr>
-                    <th>Record title</th>
-                    <th>Content type</th>
-                    <th>Date created</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredRecords.map((record) => (
-                    <tr key={record.title}>
-                      <td>
-                        <strong>{record.title}</strong>
-                      </td>
-                      <td>{record.type}</td>
-                      <td>{record.date}</td>
-                      <td>
-                        <StatusBadge status={record.status} />
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          className="admin-record-action"
-                          onClick={() => openPlaceholder(`View/edit: ${record.title}`)}
+              <div className="admin-overview-grid admin-lower-grid">
+                <section className="admin-panel admin-content-panel">
+                  <div className="admin-panel-heading">
+                    <div>
+                      <h2>Content Overview</h2>
+                      <p>Sample status breakdown by category</p>
+                    </div>
+                    <span className="admin-demo-mini-tag">DEMO</span>
+                  </div>
+                  <div className="admin-content-legend">
+                    <span>
+                      <i className="content-dot published" /> Published
+                    </span>
+                    <span>
+                      <i className="content-dot draft" /> Draft
+                    </span>
+                    <span>
+                      <i className="content-dot pending" /> Pending review
+                    </span>
+                  </div>
+                  <div className="admin-category-list">
+                    {contentCategories.map((category) => (
+                      <div className="admin-category-row" key={category.label}>
+                        <div className="admin-category-info">
+                          <strong>{category.label}</strong>
+                          <span>{category.total} sample records</span>
+                        </div>
+                        <div
+                          className="admin-category-bars"
+                          aria-label={`${category.published} published, ${category.draft} drafts, ${category.pending} pending review`}
                         >
-                          View / edit
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {filteredRecords.length === 0 && (
-                <div className="admin-records-empty">
-                  <Search size={19} />
-                  <strong>No matching demonstration records</strong>
-                  <span>Try another search or status filter.</span>
-                </div>
-              )}
-            </div>
-            <div className="admin-records-footer">
-              Showing {filteredRecords.length} of {demoRecords.length} sample records
-              <Link to="/" className="admin-public-link">
-                View public archive <ArrowUpRight size={13} />
-              </Link>
-            </div>
-          </section>
+                          <span
+                            className="published"
+                            style={{ width: `${(category.published / category.total) * 100}%` }}
+                          />
+                          <span
+                            className="draft"
+                            style={{ width: `${(category.draft / category.total) * 100}%` }}
+                          />
+                          <span
+                            className="pending"
+                            style={{ width: `${(category.pending / category.total) * 100}%` }}
+                          />
+                        </div>
+                        <span className="admin-category-count">{category.total}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="admin-content-totals">
+                    <span>
+                      <strong>20</strong> Draft records
+                    </span>
+                    <span>
+                      <strong>73</strong> Published records
+                    </span>
+                    <span>
+                      <strong>25</strong> Pending verification
+                    </span>
+                  </div>
+                </section>
 
-          <footer className="admin-dashboard-footer">
-            <span>GSP Historical Archive · Administration preview</span>
-            <span>
-              <Check size={13} /> Frontend demonstration only
-            </span>
-          </footer>
+                <section className="admin-panel admin-quick-actions-panel">
+                  <div className="admin-panel-heading">
+                    <div>
+                      <h2>Quick Actions</h2>
+                      <p>Management pages are future placeholders</p>
+                    </div>
+                  </div>
+                  <div className="admin-quick-actions">
+                    {quickActions.map(({ label, icon: Icon, target }) => (
+                      <button type="button" key={label} onClick={() => openPlaceholder(target)}>
+                        <span>
+                          <Icon size={17} />
+                        </span>
+                        <strong>{label}</strong>
+                        <ArrowUpRight size={14} className="admin-quick-arrow" />
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              </div>
+
+              <section className="admin-panel admin-records-panel">
+                <div className="admin-panel-heading admin-records-heading">
+                  <div>
+                    <h2>Recently Added Records</h2>
+                    <p>Example records for interface preview only</p>
+                  </div>
+                  <label className="admin-status-filter">
+                    <span className="sr-only">Filter records by status</span>
+                    <select
+                      value={statusFilter}
+                      onChange={(event) => setStatusFilter(event.target.value)}
+                    >
+                      <option value="all">All statuses</option>
+                      <option value="Draft">Draft</option>
+                      <option value="Published">Published</option>
+                      <option value="Pending review">Pending review</option>
+                    </select>
+                    <ChevronDown size={14} />
+                  </label>
+                </div>
+                <div className="admin-table-scroll">
+                  <table className="admin-records-table">
+                    <thead>
+                      <tr>
+                        <th>Record title</th>
+                        <th>Content type</th>
+                        <th>Date created</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredRecords.map((record) => (
+                        <tr key={record.title}>
+                          <td>
+                            <strong>{record.title}</strong>
+                          </td>
+                          <td>{record.type}</td>
+                          <td>{record.date}</td>
+                          <td>
+                            <StatusBadge status={record.status} />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="admin-record-action"
+                              onClick={() => openPlaceholder(`View/edit: ${record.title}`)}
+                            >
+                              View / edit
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {filteredRecords.length === 0 && (
+                    <div className="admin-records-empty">
+                      <Search size={19} />
+                      <strong>No matching demonstration records</strong>
+                      <span>Try another search or status filter.</span>
+                    </div>
+                  )}
+                </div>
+                <div className="admin-records-footer">
+                  Showing {filteredRecords.length} of {demoRecords.length} sample records
+                  <Link to="/" className="admin-public-link">
+                    View public archive <ArrowUpRight size={13} />
+                  </Link>
+                </div>
+              </section>
+
+              <footer className="admin-dashboard-footer">
+                <span>GSP Historical Archive · Administration preview</span>
+                <span>
+                  <Check size={13} /> Frontend demonstration only
+                </span>
+              </footer>
+            </>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+export const AdminLayout = AdminDashboardPage;

@@ -436,8 +436,8 @@ function GalleryDetailsPage() {
             </div>
           </div>
           <p className="gallery-illustrations-note">
-            These example images are illustrative only; they are not verified photographs of GSP
-            or part of the historical archive.
+            These example images are illustrative only; they are not verified photographs of GSP or
+            part of the historical archive.
           </p>
           <div className="gallery-illustration-grid">
             {studentIllustrations.map((imageUrl) => (

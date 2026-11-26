@@ -39,17 +39,18 @@ const records: Leader[] = [
 
 describe("leadership filters", () => {
   it("searches names without case sensitivity and filters status", () => {
-    expect(filterLeaders(records, "RECORD B", "former", "all", "oldest").map((item) => item.slug))
-      .toEqual(["record-b"]);
+    expect(
+      filterLeaders(records, "RECORD B", "former", "all", "oldest").map((item) => item.slug),
+    ).toEqual(["record-b"]);
     expect(filterLeaders(records, "", "current", "all", "oldest").map((item) => item.slug)).toEqual(
       ["record-current"],
     );
   });
 
   it("filters unverified periods and sorts dated records chronologically", () => {
-    expect(filterLeaders(records, "", "all", "unverified", "oldest").map((item) => item.slug)).toEqual(
-      ["record-current"],
-    );
+    expect(
+      filterLeaders(records, "", "all", "unverified", "oldest").map((item) => item.slug),
+    ).toEqual(["record-current"]);
     expect(filterLeaders(records, "", "all", "all", "oldest").map((item) => item.slug)).toEqual([
       "record-a",
       "record-b",

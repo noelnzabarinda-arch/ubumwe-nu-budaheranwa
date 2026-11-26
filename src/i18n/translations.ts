@@ -463,8 +463,7 @@ export const translations = {
     growingText: "Le développement de notre communauté scolaire.",
     continuingTitle: "Un parcours qui continue",
     continuingText: "Préserver notre patrimoine pour ceux qui suivront.",
-    datesVerifiedNote:
-      "Les dates et jalons seront ajoutés après vérification historique.",
+    datesVerifiedNote: "Les dates et jalons seront ajoutés après vérification historique.",
     collectionsEyebrow: "EXPLORER LES COLLECTIONS",
     collectionsTitle: "Plusieurs fenêtres sur notre passé.",
     schoolHistoryTitle: "Histoire de l’école",

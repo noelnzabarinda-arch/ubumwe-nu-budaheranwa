@@ -158,8 +158,7 @@ export function filterArchiveSearch(
   return items
     .filter(
       (item) =>
-        (type === "all" || item.type === type) &&
-        (year === "all" || item.year === Number(year)),
+        (type === "all" || item.type === type) && (year === "all" || item.year === Number(year)),
     )
     .sort((a, b) => {
       if (sort === "newest") {

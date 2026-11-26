@@ -26,11 +26,7 @@ function OurHistory() {
   return (
     <>
       <section className="page-hero">
-        <img
-          className="hero-image"
-          src={archiveImages.museumExterior}
-          alt="Museum exterior"
-        />
+        <img className="hero-image" src={archiveImages.museumExterior} alt="Museum exterior" />
         <div className="hero-shade" />
         <div className="container page-hero-content">
           <div className="breadcrumb">

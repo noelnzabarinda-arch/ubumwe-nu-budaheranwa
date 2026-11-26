@@ -66,9 +66,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           {t("pageDidNotLoad")}
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {t("unexpectedError")}
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{t("unexpectedError")}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {

@@ -27,7 +27,12 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { t } = useLanguage();
   const collections = [
-    { title: t("schoolHistoryTitle"), text: t("schoolHistoryText"), icon: BookOpen, slug: "history" },
+    {
+      title: t("schoolHistoryTitle"),
+      text: t("schoolHistoryText"),
+      icon: BookOpen,
+      slug: "history",
+    },
     { title: t("leadershipTitle"), text: t("leadershipText"), icon: Landmark, slug: "leadership" },
     { title: t("alumniTitle"), text: t("alumniText"), icon: Users, slug: "alumni" },
     { title: t("documentsTitle"), text: t("documentsText"), icon: FileText, slug: "documents" },
@@ -116,12 +121,8 @@ function Home() {
             <br />
             <em>{t("introTitleEmphasis")}</em>
           </h2>
-          <p>
-            {t("introText1")}
-          </p>
-          <p>
-            {t("introText2")}
-          </p>
+          <p>{t("introText1")}</p>
+          <p>{t("introText2")}</p>
           <Link className="text-link" to="/about-archive">
             {t("archivePurposeLink")} <ArrowRight size={15} />
           </Link>
@@ -133,10 +134,7 @@ function Home() {
       </section>
       <section className="featured-section section-space">
         <div className="container">
-          <SectionHeading
-            eyebrow={t("storiesEyebrow")}
-            title={t("storiesTitle")}
-          >
+          <SectionHeading eyebrow={t("storiesEyebrow")} title={t("storiesTitle")}>
             <Link className="text-link" to="/our-history">
               {t("viewAllStories")} <ArrowUpRight size={15} />
             </Link>
@@ -178,9 +176,7 @@ function Home() {
             </div>
           ))}
         </div>
-        <p className="quiet-note">
-          {t("datesVerifiedNote")}
-        </p>
+        <p className="quiet-note">{t("datesVerifiedNote")}</p>
       </section>
       <section className="collections-section section-space">
         <div className="container">
@@ -214,12 +210,11 @@ function Home() {
       <section className="container media-section section-space">
         <div className="media-copy">
           <span className="eyebrow">
-            <span className="gold-rule" />{t("windowEyebrow")}
+            <span className="gold-rule" />
+            {t("windowEyebrow")}
           </span>
           <h2>{t("memoriesTitle")}</h2>
-          <p>
-            {t("memoriesText")}
-          </p>
+          <p>{t("memoriesText")}</p>
           <Link to="/archive/$collection" params={{ collection: "gallery" }} className="text-link">
             {t("exploreGallery")} <ArrowUpRight size={15} />
           </Link>

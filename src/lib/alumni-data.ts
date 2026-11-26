@@ -49,7 +49,9 @@ export const alumniStories: AlumniStory[] = [];
 export function alumniYearLabel(profile: AlumniProfile) {
   if (!profile.verified) return "Information awaiting verification";
   if (profile.category === "former-student") {
-    return profile.graduationYear ? `Graduated ${profile.graduationYear}` : "Graduation year unverified";
+    return profile.graduationYear
+      ? `Graduated ${profile.graduationYear}`
+      : "Graduation year unverified";
   }
   return profile.servicePeriod ?? "Service period awaiting verification";
 }
@@ -71,7 +73,8 @@ export function filterAlumni(
           .toLocaleLowerCase()
           .includes(term);
       const matchesCategory =
-        category === "all" || (profile.category === "former-student" && category === "former-student") ||
+        category === "all" ||
+        (profile.category === "former-student" && category === "former-student") ||
         (profile.category === "former-staff" && category === "former-staff");
       const matchesYear =
         graduationYear === "all" ||
@@ -80,9 +83,7 @@ export function filterAlumni(
           : profile.graduationYear !== null && String(profile.graduationYear) === graduationYear);
       const matchesProgram =
         program === "all" ||
-        (program === "unverified"
-          ? !profile.program
-          : profile.program === program);
+        (program === "unverified" ? !profile.program : profile.program === program);
       return matchesQuery && matchesCategory && matchesYear && matchesProgram;
     })
     .sort((a, b) => {

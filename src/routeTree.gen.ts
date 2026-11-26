@@ -18,8 +18,17 @@ import { Route as LeadershipRouteImport } from './routes/leadership'
 import { Route as OurHistoryRouteImport } from './routes/our-history'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as AdminAlumniStaffRouteImport } from './routes/admin.alumni-staff'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminDocumentsRouteImport } from './routes/admin.documents'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
+import { Route as AdminHistoryRouteImport } from './routes/admin.history'
+import { Route as AdminLeadershipRouteImport } from './routes/admin.leadership'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminSourcesRouteImport } from './routes/admin.sources'
+import { Route as AdminTimelineRouteImport } from './routes/admin.timeline'
 import { Route as AlumniIndexRouteImport } from './routes/alumni.index'
 import { Route as AlumniSlugRouteImport } from './routes/alumni.$slug'
 import { Route as ArchiveCollectionRouteImport } from './routes/archive/$collection'
@@ -79,14 +88,59 @@ const TimelineRoute = TimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAlumniStaffRoute = AdminAlumniStaffRouteImport.update({
+  id: '/admin/alumni-staff',
+  path: '/admin/alumni-staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/admin/dashboard',
   path: '/admin/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
+  id: '/admin/documents',
+  path: '/admin/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/admin/events',
+  path: '/admin/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/admin/gallery',
+  path: '/admin/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHistoryRoute = AdminHistoryRouteImport.update({
+  id: '/admin/history',
+  path: '/admin/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLeadershipRoute = AdminLeadershipRouteImport.update({
+  id: '/admin/leadership',
+  path: '/admin/leadership',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSourcesRoute = AdminSourcesRouteImport.update({
+  id: '/admin/sources',
+  path: '/admin/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTimelineRoute = AdminTimelineRouteImport.update({
+  id: '/admin/timeline',
+  path: '/admin/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlumniIndexRoute = AlumniIndexRouteImport.update({
@@ -165,8 +219,17 @@ export interface FileRoutesByFullPath {
   '/our-history': typeof OurHistoryRouteWithChildren
   '/search': typeof SearchRoute
   '/timeline': typeof TimelineRouteWithChildren
+  '/admin/alumni-staff': typeof AdminAlumniStaffRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/documents': typeof AdminDocumentsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/history': typeof AdminHistoryRoute
+  '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sources': typeof AdminSourcesRoute
+  '/admin/timeline': typeof AdminTimelineRoute
   '/alumni/$slug': typeof AlumniSlugRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -186,8 +249,17 @@ export interface FileRoutesByTo {
   '/about-archive': typeof AboutArchiveRoute
   '/documents': typeof DocumentsRoute
   '/search': typeof SearchRoute
+  '/admin/alumni-staff': typeof AdminAlumniStaffRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/documents': typeof AdminDocumentsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/history': typeof AdminHistoryRoute
+  '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sources': typeof AdminSourcesRoute
+  '/admin/timeline': typeof AdminTimelineRoute
   '/alumni/$slug': typeof AlumniSlugRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -213,8 +285,17 @@ export interface FileRoutesById {
   '/our-history': typeof OurHistoryRouteWithChildren
   '/search': typeof SearchRoute
   '/timeline': typeof TimelineRouteWithChildren
+  '/admin/alumni-staff': typeof AdminAlumniStaffRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/documents': typeof AdminDocumentsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/history': typeof AdminHistoryRoute
+  '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sources': typeof AdminSourcesRoute
+  '/admin/timeline': typeof AdminTimelineRoute
   '/alumni/$slug': typeof AlumniSlugRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -241,8 +322,17 @@ export interface FileRouteTypes {
     | '/our-history'
     | '/search'
     | '/timeline'
+    | '/admin/alumni-staff'
     | '/admin/dashboard'
+    | '/admin/documents'
+    | '/admin/events'
+    | '/admin/gallery'
+    | '/admin/history'
+    | '/admin/leadership'
     | '/admin/login'
+    | '/admin/settings'
+    | '/admin/sources'
+    | '/admin/timeline'
     | '/alumni/$slug'
     | '/archive/$collection'
     | '/events/$slug'
@@ -262,8 +352,17 @@ export interface FileRouteTypes {
     | '/about-archive'
     | '/documents'
     | '/search'
+    | '/admin/alumni-staff'
     | '/admin/dashboard'
+    | '/admin/documents'
+    | '/admin/events'
+    | '/admin/gallery'
+    | '/admin/history'
+    | '/admin/leadership'
     | '/admin/login'
+    | '/admin/settings'
+    | '/admin/sources'
+    | '/admin/timeline'
     | '/alumni/$slug'
     | '/archive/$collection'
     | '/events/$slug'
@@ -288,8 +387,17 @@ export interface FileRouteTypes {
     | '/our-history'
     | '/search'
     | '/timeline'
+    | '/admin/alumni-staff'
     | '/admin/dashboard'
+    | '/admin/documents'
+    | '/admin/events'
+    | '/admin/gallery'
+    | '/admin/history'
+    | '/admin/leadership'
     | '/admin/login'
+    | '/admin/settings'
+    | '/admin/sources'
+    | '/admin/timeline'
     | '/alumni/$slug'
     | '/archive/$collection'
     | '/events/$slug'
@@ -315,8 +423,17 @@ export interface RootRouteChildren {
   OurHistoryRoute: typeof OurHistoryRouteWithChildren
   SearchRoute: typeof SearchRoute
   TimelineRoute: typeof TimelineRouteWithChildren
+  AdminAlumniStaffRoute: typeof AdminAlumniStaffRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminDocumentsRoute: typeof AdminDocumentsRoute
+  AdminEventsRoute: typeof AdminEventsRoute
+  AdminGalleryRoute: typeof AdminGalleryRoute
+  AdminHistoryRoute: typeof AdminHistoryRoute
+  AdminLeadershipRoute: typeof AdminLeadershipRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminSourcesRoute: typeof AdminSourcesRoute
+  AdminTimelineRoute: typeof AdminTimelineRoute
   AlumniSlugRoute: typeof AlumniSlugRoute
   ArchiveCollectionRoute: typeof ArchiveCollectionRoute
   AlumniIndexRoute: typeof AlumniIndexRoute
@@ -387,6 +504,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/alumni-staff': {
+      id: '/admin/alumni-staff'
+      path: '/admin/alumni-staff'
+      fullPath: '/admin/alumni-staff'
+      preLoaderRoute: typeof AdminAlumniStaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/dashboard': {
       id: '/admin/dashboard'
       path: '/admin/dashboard'
@@ -394,11 +518,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/documents': {
+      id: '/admin/documents'
+      path: '/admin/documents'
+      fullPath: '/admin/documents'
+      preLoaderRoute: typeof AdminDocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/admin/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/history': {
+      id: '/admin/history'
+      path: '/admin/history'
+      fullPath: '/admin/history'
+      preLoaderRoute: typeof AdminHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/leadership': {
+      id: '/admin/leadership'
+      path: '/admin/leadership'
+      fullPath: '/admin/leadership'
+      preLoaderRoute: typeof AdminLeadershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/sources': {
+      id: '/admin/sources'
+      path: '/admin/sources'
+      fullPath: '/admin/sources'
+      preLoaderRoute: typeof AdminSourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/timeline': {
+      id: '/admin/timeline'
+      path: '/admin/timeline'
+      fullPath: '/admin/timeline'
+      preLoaderRoute: typeof AdminTimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/alumni/': {
@@ -573,8 +753,17 @@ const rootRouteChildren: RootRouteChildren = {
   OurHistoryRoute: OurHistoryRouteWithChildren,
   SearchRoute: SearchRoute,
   TimelineRoute: TimelineRouteWithChildren,
+  AdminAlumniStaffRoute: AdminAlumniStaffRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminDocumentsRoute: AdminDocumentsRoute,
+  AdminEventsRoute: AdminEventsRoute,
+  AdminGalleryRoute: AdminGalleryRoute,
+  AdminHistoryRoute: AdminHistoryRoute,
+  AdminLeadershipRoute: AdminLeadershipRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminSourcesRoute: AdminSourcesRoute,
+  AdminTimelineRoute: AdminTimelineRoute,
   AlumniSlugRoute: AlumniSlugRoute,
   ArchiveCollectionRoute: ArchiveCollectionRoute,
   AlumniIndexRoute: AlumniIndexRoute,

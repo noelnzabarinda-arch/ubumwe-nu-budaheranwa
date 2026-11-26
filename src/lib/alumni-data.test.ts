@@ -36,14 +36,21 @@ const records: AlumniProfile[] = [
 
 describe("alumni filters", () => {
   it("searches names and distinguishes former students from staff", () => {
-    expect(filterAlumni(records, "student a", "former-student", "all", "all", "alphabetical").map((item) => item.slug))
-      .toEqual(["student-a"]);
-    expect(filterAlumni(records, "", "former-staff", "all", "all", "alphabetical").map((item) => item.slug))
-      .toEqual(["staff-b"]);
+    expect(
+      filterAlumni(records, "student a", "former-student", "all", "all", "alphabetical").map(
+        (item) => item.slug,
+      ),
+    ).toEqual(["student-a"]);
+    expect(
+      filterAlumni(records, "", "former-staff", "all", "all", "alphabetical").map(
+        (item) => item.slug,
+      ),
+    ).toEqual(["staff-b"]);
   });
 
   it("filters year and program and supports chronological sorting", () => {
-    expect(filterAlumni(records, "", "all", "2001", "Science", "chronological").map((item) => item.slug))
-      .toEqual(["student-a"]);
+    expect(
+      filterAlumni(records, "", "all", "2001", "Science", "chronological").map((item) => item.slug),
+    ).toEqual(["student-a"]);
   });
 });

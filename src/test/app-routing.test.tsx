@@ -36,6 +36,15 @@ describe("App routing", () => {
     ["/search", "/search"],
     ["/admin/login", "/admin/login"],
     ["/admin/dashboard", "/admin/dashboard"],
+    ["/admin/history", "/admin/history"],
+    ["/admin/timeline", "/admin/timeline"],
+    ["/admin/leadership", "/admin/leadership"],
+    ["/admin/events", "/admin/events"],
+    ["/admin/alumni-staff", "/admin/alumni-staff"],
+    ["/admin/gallery", "/admin/gallery"],
+    ["/admin/documents", "/admin/documents"],
+    ["/admin/sources", "/admin/sources"],
+    ["/admin/settings", "/admin/settings"],
   ])("matches the archive destination %s", (path, routeId) => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     expect(router.matchRoutes(path).at(-1)?.routeId).toBe(routeId);

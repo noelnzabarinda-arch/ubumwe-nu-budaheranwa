@@ -65,9 +65,7 @@ export function Contribution() {
         <div>
           <span className="eyebrow">{t("everyMemoryMatters")}</span>
           <h2>{t("sharedHistoryTitle")}</h2>
-          <p>
-            {t("sharedHistoryText")}
-          </p>
+          <p>{t("sharedHistoryText")}</p>
         </div>
         <Button asChild variant="heritage">
           <Link to="/archive/$collection" params={{ collection: "contribute" }}>
@@ -83,9 +81,7 @@ export function SampleNotice() {
   return (
     <p className="sample-notice">
       <Archive size={14} />
-      <span>
-        {t("sampleNotice")}
-      </span>
+      <span>{t("sampleNotice")}</span>
     </p>
   );
 }
