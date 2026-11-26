@@ -4,39 +4,56 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ArchiveHeader, ArchiveFooter } from "@/components/archive/shell";
+import { LanguageProvider } from "@/i18n/LanguageContext";
+import { useLanguage } from "@/i18n/useLanguage";
 
 function NotFoundComponent() {
+  const { t } = useLanguage();
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
+    <section className="container archive-not-found">
+      <nav className="breadcrumb archive-not-found-breadcrumb" aria-label={t("breadcrumb")}>
+        <Link to="/">{t("home")}</Link>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{t("pageNotFound")}</span>
+      </nav>
+      <div className="archive-not-found-content">
+        <span className="archive-not-found-mark" aria-hidden="true">
+          404
+        </span>
+        <span className="eyebrow">
+          <span className="gold-rule" /> GSP HISTORICAL ARCHIVE
+        </span>
+        <h1>{t("pageNotFound")}</h1>
+        <p>{t("notFoundDescription")}</p>
+        <Link className="archive-not-found-home" to="/">
+          {t("returnHome")} <ArrowUpRight size={15} />
+        </Link>
+        <nav className="archive-not-found-links" aria-label={t("exploreArchive")}>
+          <Link to="/our-history">
+            {t("ourHistory")} <ArrowRight size={14} />
           </Link>
-        </div>
+          <Link to="/timeline">
+            {t("historicalTimeline")} <ArrowRight size={14} />
+          </Link>
+        </nav>
       </div>
-    </div>
+    </section>
   );
 }
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
+  const { t } = useLanguage();
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -47,10 +64,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          {t("pageDidNotLoad")}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          {t("unexpectedError")}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -60,13 +77,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
+            {t("tryAgain")}
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
-            Go home
+            {t("goHome")}
           </a>
         </div>
       </div>
@@ -107,7 +124,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/logo.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -132,15 +149,20 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isAdminRoute = useRouterState({
+    select: (state) => state.location.pathname.startsWith("/admin"),
+  });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <ArchiveHeader />
-      <main id="main-content">
-        <Outlet />
-      </main>
-      <ArchiveFooter />
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        {!isAdminRoute && <ArchiveHeader />}
+        <main id="main-content">
+          <Outlet />
+        </main>
+        {!isAdminRoute && <ArchiveFooter />}
+      </QueryClientProvider>
+    </LanguageProvider>
   );
 }

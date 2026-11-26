@@ -11,7 +11,25 @@ export type Story = {
   title: string;
   category: string;
   description: string;
-  image: "books" | "pages" | "hero";
+  image:
+    | "books"
+    | "pages"
+    | "hero"
+    | "library"
+    | "documents"
+    | "manuscript"
+    | "desk"
+    | "reading"
+    | "notebooks"
+    | "schoolBuilding"
+    | "schoolCampus"
+    | "schoolCourtyard"
+    | "schoolFacade"
+    | "documentsDesk"
+    | "documentsTable"
+    | "documentsArchive"
+    | "documentsRecords"
+    | "documentsPhotos";
   period: string | null;
 };
 export const stories: Story[] = [
@@ -21,7 +39,7 @@ export const stories: Story[] = [
     category: categories[0],
     description:
       "A place for the records and recollections that will document the beginnings of GSP.",
-    image: "books",
+    image: "schoolBuilding",
     period: null,
   },
   {
@@ -30,7 +48,7 @@ export const stories: Story[] = [
     category: categories[1],
     description:
       "Tracing the spaces, ideas, and shared commitment behind the school’s development.",
-    image: "hero",
+    image: "schoolCampus",
     period: null,
   },
   {
@@ -38,7 +56,7 @@ export const stories: Story[] = [
     title: "The memories we carry together",
     category: categories[3],
     description: "Making room for the everyday experiences that connect a school community.",
-    image: "pages",
+    image: "documentsArchive",
     period: null,
   },
   {
@@ -46,7 +64,7 @@ export const stories: Story[] = [
     title: "The pursuit of knowledge",
     category: categories[2],
     description: "A future collection of verified records reflecting teaching and learning at GSP.",
-    image: "pages",
+    image: "documentsTable",
     period: null,
   },
   {
@@ -54,7 +72,7 @@ export const stories: Story[] = [
     title: "Marking the journey",
     category: categories[4],
     description: "Important moments will be documented here when sources and dates are verified.",
-    image: "books",
+    image: "schoolFacade",
     period: null,
   },
   {
@@ -63,7 +81,7 @@ export const stories: Story[] = [
     category: categories[5],
     description:
       "A space reserved for carefully verified accounts, remembrance, and respectful reflection.",
-    image: "hero",
+    image: "documentsPhotos",
     period: null,
   },
 ];

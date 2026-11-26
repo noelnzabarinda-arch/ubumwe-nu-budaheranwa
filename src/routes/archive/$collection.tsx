@@ -5,6 +5,11 @@ import { archiveHead, collectionNames } from "@/lib/archive-data";
 export const Route = createFileRoute("/archive/$collection")({
   beforeLoad: ({ params }) => {
     if (params.collection === "timeline") throw redirect({ to: "/timeline", statusCode: 301 });
+    if (params.collection === "leadership") throw redirect({ to: "/leadership", statusCode: 301 });
+    if (params.collection === "alumni") throw redirect({ to: "/alumni", statusCode: 301 });
+    if (params.collection === "gallery") throw redirect({ to: "/gallery", statusCode: 301 });
+    if (params.collection === "documents") throw redirect({ to: "/documents", statusCode: 301 });
+    if (params.collection === "about") throw redirect({ to: "/about-archive", statusCode: 301 });
   },
   head: ({ params }) =>
     archiveHead(

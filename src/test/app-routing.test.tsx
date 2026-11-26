@@ -22,6 +22,20 @@ describe("App routing", () => {
     ["/archive/contribute", "/archive/$collection"],
     ["/timeline", "/timeline/"],
     ["/timeline/the-beginning", "/timeline/$year"],
+    ["/events", "/events/"],
+    ["/events/the-beginning", "/events/$slug"],
+    ["/leadership", "/leadership/"],
+    ["/leadership/current-leadership", "/leadership/$slug"],
+    ["/alumni", "/alumni/"],
+    ["/alumni/profile-verification-pending", "/alumni/$slug"],
+    ["/gallery", "/gallery/"],
+    ["/gallery/school-history", "/gallery/$categorySlug"],
+    ["/gallery/videos-documentaries", "/gallery/$categorySlug"],
+    ["/documents", "/documents"],
+    ["/about-archive", "/about-archive"],
+    ["/search", "/search"],
+    ["/admin/login", "/admin/login"],
+    ["/admin/dashboard", "/admin/dashboard"],
   ])("matches the archive destination %s", (path, routeId) => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     expect(router.matchRoutes(path).at(-1)?.routeId).toBe(routeId);

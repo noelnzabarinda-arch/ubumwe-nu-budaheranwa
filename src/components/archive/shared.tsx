@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, Archive, HandHeart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Story } from "@/lib/archive-data";
 import { archiveImages } from "./images";
+import { useLanguage } from "@/i18n/useLanguage";
 export function SectionHeading({
   eyebrow,
   title,
@@ -27,32 +28,34 @@ export function SectionHeading({
   );
 }
 export function StoryCard({ story, full = false }: { story: Story; full?: boolean }) {
+  const { t } = useLanguage();
   return (
     <Link to="/our-history/$slug" params={{ slug: story.slug }} className="story-card">
       <div className="story-image">
         <img
           src={archiveImages[story.image]}
-          alt="Illustrative archival still life; not a GSP historical photograph"
+          alt="GSP school history or historical document"
           loading="lazy"
         />
-        <span className="image-note">ILLUSTRATIVE IMAGE</span>
+        <span className="image-note">{t("archiveCollection")}</span>
         <span className="story-image-arrow">
           <ArrowUpRight size={19} />
         </span>
       </div>
       <div className="story-meta">
         <span>{story.category}</span>
-        <span>Period unconfirmed</span>
+        <span>{t("periodUnconfirmed")}</span>
       </div>
       <h3>{story.title}</h3>
       <p>{story.description}</p>
       <span className="text-link">
-        {full ? "Read Full Story" : "Read Story"} <ArrowRight size={14} />
+        {full ? t("readFullStory") : t("readStory")} <ArrowRight size={14} />
       </span>
     </Link>
   );
 }
 export function Contribution() {
+  const { t } = useLanguage();
   return (
     <section className="contribution">
       <div className="container contribution-inner">
@@ -60,15 +63,15 @@ export function Contribution() {
           <HandHeart size={34} strokeWidth={1.2} />
         </div>
         <div>
-          <span className="eyebrow">EVERY MEMORY MATTERS</span>
-          <h2>Our history is a story we share.</h2>
+          <span className="eyebrow">{t("everyMemoryMatters")}</span>
+          <h2>{t("sharedHistoryTitle")}</h2>
           <p>
-            Have a photograph, document, or memory of GSP? Help preserve it for the next generation.
+            {t("sharedHistoryText")}
           </p>
         </div>
         <Button asChild variant="heritage">
           <Link to="/archive/$collection" params={{ collection: "contribute" }}>
-            Contribute to the Archive <ArrowUpRight size={15} />
+            {t("contributeArchive")} <ArrowUpRight size={15} />
           </Link>
         </Button>
       </div>
@@ -76,12 +79,12 @@ export function Contribution() {
   );
 }
 export function SampleNotice() {
+  const { t } = useLanguage();
   return (
     <p className="sample-notice">
       <Archive size={14} />
       <span>
-        Collection previews only. Verified historical information will appear here. Images are
-        illustrative, not GSP historical photographs.
+        {t("sampleNotice")}
       </span>
     </p>
   );

@@ -10,9 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutArchiveRouteImport } from './routes/about-archive'
+import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as LeadershipRouteImport } from './routes/leadership'
 import { Route as OurHistoryRouteImport } from './routes/our-history'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AlumniIndexRouteImport } from './routes/alumni.index'
+import { Route as AlumniSlugRouteImport } from './routes/alumni.$slug'
 import { Route as ArchiveCollectionRouteImport } from './routes/archive/$collection'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as GalleryIndexRouteImport } from './routes/gallery.index'
+import { Route as GalleryCategorySlugRouteImport } from './routes/gallery.$categorySlug'
+import { Route as LeadershipIndexRouteImport } from './routes/leadership.index'
+import { Route as LeadershipSlugRouteImport } from './routes/leadership.$slug'
 import { Route as OurHistoryIndexRouteImport } from './routes/our-history.index'
 import { Route as OurHistorySlugRouteImport } from './routes/our-history.$slug'
 import { Route as TimelineIndexRouteImport } from './routes/timeline.index'
@@ -23,9 +39,39 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutArchiveRoute = AboutArchiveRouteImport.update({
+  id: '/about-archive',
+  path: '/about-archive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadershipRoute = LeadershipRouteImport.update({
+  id: '/leadership',
+  path: '/leadership',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OurHistoryRoute = OurHistoryRouteImport.update({
   id: '/our-history',
   path: '/our-history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TimelineRoute = TimelineRouteImport.update({
@@ -33,10 +79,60 @@ const TimelineRoute = TimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlumniIndexRoute = AlumniIndexRouteImport.update({
+  id: '/alumni/',
+  path: '/alumni/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlumniSlugRoute = AlumniSlugRouteImport.update({
+  id: '/alumni/$slug',
+  path: '/alumni/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArchiveCollectionRoute = ArchiveCollectionRouteImport.update({
   id: '/archive/$collection',
   path: '/archive/$collection',
   getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EventsRoute,
+} as any)
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => EventsRoute,
+} as any)
+const GalleryIndexRoute = GalleryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GalleryRoute,
+} as any)
+const GalleryCategorySlugRoute = GalleryCategorySlugRouteImport.update({
+  id: '/$categorySlug',
+  path: '/$categorySlug',
+  getParentRoute: () => GalleryRoute,
+} as any)
+const LeadershipIndexRoute = LeadershipIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LeadershipRoute,
+} as any)
+const LeadershipSlugRoute = LeadershipSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LeadershipRoute,
 } as any)
 const OurHistoryIndexRoute = OurHistoryIndexRouteImport.update({
   id: '/',
@@ -61,30 +157,75 @@ const TimelineYearRoute = TimelineYearRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-archive': typeof AboutArchiveRoute
+  '/documents': typeof DocumentsRoute
+  '/events': typeof EventsRouteWithChildren
+  '/gallery': typeof GalleryRouteWithChildren
+  '/leadership': typeof LeadershipRouteWithChildren
   '/our-history': typeof OurHistoryRouteWithChildren
+  '/search': typeof SearchRoute
   '/timeline': typeof TimelineRouteWithChildren
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/alumni/$slug': typeof AlumniSlugRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
+  '/events/$slug': typeof EventsSlugRoute
+  '/gallery/$categorySlug': typeof GalleryCategorySlugRoute
+  '/leadership/$slug': typeof LeadershipSlugRoute
   '/our-history/$slug': typeof OurHistorySlugRoute
   '/timeline/$year': typeof TimelineYearRoute
+  '/alumni/': typeof AlumniIndexRoute
+  '/events/': typeof EventsIndexRoute
+  '/gallery/': typeof GalleryIndexRoute
+  '/leadership/': typeof LeadershipIndexRoute
   '/our-history/': typeof OurHistoryIndexRoute
   '/timeline/': typeof TimelineIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-archive': typeof AboutArchiveRoute
+  '/documents': typeof DocumentsRoute
+  '/search': typeof SearchRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/alumni/$slug': typeof AlumniSlugRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
+  '/events/$slug': typeof EventsSlugRoute
+  '/gallery/$categorySlug': typeof GalleryCategorySlugRoute
+  '/leadership/$slug': typeof LeadershipSlugRoute
   '/our-history/$slug': typeof OurHistorySlugRoute
   '/timeline/$year': typeof TimelineYearRoute
+  '/alumni': typeof AlumniIndexRoute
+  '/events': typeof EventsIndexRoute
+  '/gallery': typeof GalleryIndexRoute
+  '/leadership': typeof LeadershipIndexRoute
   '/our-history': typeof OurHistoryIndexRoute
   '/timeline': typeof TimelineIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about-archive': typeof AboutArchiveRoute
+  '/documents': typeof DocumentsRoute
+  '/events': typeof EventsRouteWithChildren
+  '/gallery': typeof GalleryRouteWithChildren
+  '/leadership': typeof LeadershipRouteWithChildren
   '/our-history': typeof OurHistoryRouteWithChildren
+  '/search': typeof SearchRoute
   '/timeline': typeof TimelineRouteWithChildren
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/alumni/$slug': typeof AlumniSlugRoute
   '/archive/$collection': typeof ArchiveCollectionRoute
+  '/events/$slug': typeof EventsSlugRoute
+  '/gallery/$categorySlug': typeof GalleryCategorySlugRoute
+  '/leadership/$slug': typeof LeadershipSlugRoute
   '/our-history/$slug': typeof OurHistorySlugRoute
   '/timeline/$year': typeof TimelineYearRoute
+  '/alumni/': typeof AlumniIndexRoute
+  '/events/': typeof EventsIndexRoute
+  '/gallery/': typeof GalleryIndexRoute
+  '/leadership/': typeof LeadershipIndexRoute
   '/our-history/': typeof OurHistoryIndexRoute
   '/timeline/': typeof TimelineIndexRoute
 }
@@ -92,38 +233,93 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about-archive'
+    | '/documents'
+    | '/events'
+    | '/gallery'
+    | '/leadership'
     | '/our-history'
+    | '/search'
     | '/timeline'
+    | '/admin/dashboard'
+    | '/admin/login'
+    | '/alumni/$slug'
     | '/archive/$collection'
+    | '/events/$slug'
+    | '/gallery/$categorySlug'
+    | '/leadership/$slug'
     | '/our-history/$slug'
     | '/timeline/$year'
+    | '/alumni/'
+    | '/events/'
+    | '/gallery/'
+    | '/leadership/'
     | '/our-history/'
     | '/timeline/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about-archive'
+    | '/documents'
+    | '/search'
+    | '/admin/dashboard'
+    | '/admin/login'
+    | '/alumni/$slug'
     | '/archive/$collection'
+    | '/events/$slug'
+    | '/gallery/$categorySlug'
+    | '/leadership/$slug'
     | '/our-history/$slug'
     | '/timeline/$year'
+    | '/alumni'
+    | '/events'
+    | '/gallery'
+    | '/leadership'
     | '/our-history'
     | '/timeline'
   id:
     | '__root__'
     | '/'
+    | '/about-archive'
+    | '/documents'
+    | '/events'
+    | '/gallery'
+    | '/leadership'
     | '/our-history'
+    | '/search'
     | '/timeline'
+    | '/admin/dashboard'
+    | '/admin/login'
+    | '/alumni/$slug'
     | '/archive/$collection'
+    | '/events/$slug'
+    | '/gallery/$categorySlug'
+    | '/leadership/$slug'
     | '/our-history/$slug'
     | '/timeline/$year'
+    | '/alumni/'
+    | '/events/'
+    | '/gallery/'
+    | '/leadership/'
     | '/our-history/'
     | '/timeline/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutArchiveRoute: typeof AboutArchiveRoute
+  DocumentsRoute: typeof DocumentsRoute
+  EventsRoute: typeof EventsRouteWithChildren
+  GalleryRoute: typeof GalleryRouteWithChildren
+  LeadershipRoute: typeof LeadershipRouteWithChildren
   OurHistoryRoute: typeof OurHistoryRouteWithChildren
+  SearchRoute: typeof SearchRoute
   TimelineRoute: typeof TimelineRouteWithChildren
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AlumniSlugRoute: typeof AlumniSlugRoute
   ArchiveCollectionRoute: typeof ArchiveCollectionRoute
+  AlumniIndexRoute: typeof AlumniIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -135,11 +331,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about-archive': {
+      id: '/about-archive'
+      path: '/about-archive'
+      fullPath: '/about-archive'
+      preLoaderRoute: typeof AboutArchiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leadership': {
+      id: '/leadership'
+      path: '/leadership'
+      fullPath: '/leadership'
+      preLoaderRoute: typeof LeadershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/our-history': {
       id: '/our-history'
       path: '/our-history'
       fullPath: '/our-history'
       preLoaderRoute: typeof OurHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/timeline': {
@@ -149,12 +387,82 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alumni/': {
+      id: '/alumni/'
+      path: '/alumni'
+      fullPath: '/alumni/'
+      preLoaderRoute: typeof AlumniIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alumni/$slug': {
+      id: '/alumni/$slug'
+      path: '/alumni/$slug'
+      fullPath: '/alumni/$slug'
+      preLoaderRoute: typeof AlumniSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/archive/$collection': {
       id: '/archive/$collection'
       path: '/archive/$collection'
       fullPath: '/archive/$collection'
       preLoaderRoute: typeof ArchiveCollectionRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/events/': {
+      id: '/events/'
+      path: '/'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof EventsRoute
+    }
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
+      parentRoute: typeof EventsRoute
+    }
+    '/gallery/': {
+      id: '/gallery/'
+      path: '/'
+      fullPath: '/gallery/'
+      preLoaderRoute: typeof GalleryIndexRouteImport
+      parentRoute: typeof GalleryRoute
+    }
+    '/gallery/$categorySlug': {
+      id: '/gallery/$categorySlug'
+      path: '/$categorySlug'
+      fullPath: '/gallery/$categorySlug'
+      preLoaderRoute: typeof GalleryCategorySlugRouteImport
+      parentRoute: typeof GalleryRoute
+    }
+    '/leadership/': {
+      id: '/leadership/'
+      path: '/'
+      fullPath: '/leadership/'
+      preLoaderRoute: typeof LeadershipIndexRouteImport
+      parentRoute: typeof LeadershipRoute
+    }
+    '/leadership/$slug': {
+      id: '/leadership/$slug'
+      path: '/$slug'
+      fullPath: '/leadership/$slug'
+      preLoaderRoute: typeof LeadershipSlugRouteImport
+      parentRoute: typeof LeadershipRoute
     }
     '/our-history/': {
       id: '/our-history/'
@@ -187,6 +495,46 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface EventsRouteChildren {
+  EventsSlugRoute: typeof EventsSlugRoute
+  EventsIndexRoute: typeof EventsIndexRoute
+}
+
+const EventsRouteChildren: EventsRouteChildren = {
+  EventsSlugRoute: EventsSlugRoute,
+  EventsIndexRoute: EventsIndexRoute,
+}
+
+const EventsRouteWithChildren =
+  EventsRoute._addFileChildren(EventsRouteChildren)
+
+interface GalleryRouteChildren {
+  GalleryCategorySlugRoute: typeof GalleryCategorySlugRoute
+  GalleryIndexRoute: typeof GalleryIndexRoute
+}
+
+const GalleryRouteChildren: GalleryRouteChildren = {
+  GalleryCategorySlugRoute: GalleryCategorySlugRoute,
+  GalleryIndexRoute: GalleryIndexRoute,
+}
+
+const GalleryRouteWithChildren =
+  GalleryRoute._addFileChildren(GalleryRouteChildren)
+
+interface LeadershipRouteChildren {
+  LeadershipSlugRoute: typeof LeadershipSlugRoute
+  LeadershipIndexRoute: typeof LeadershipIndexRoute
+}
+
+const LeadershipRouteChildren: LeadershipRouteChildren = {
+  LeadershipSlugRoute: LeadershipSlugRoute,
+  LeadershipIndexRoute: LeadershipIndexRoute,
+}
+
+const LeadershipRouteWithChildren = LeadershipRoute._addFileChildren(
+  LeadershipRouteChildren,
+)
+
 interface OurHistoryRouteChildren {
   OurHistorySlugRoute: typeof OurHistorySlugRoute
   OurHistoryIndexRoute: typeof OurHistoryIndexRoute
@@ -217,9 +565,19 @@ const TimelineRouteWithChildren = TimelineRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutArchiveRoute: AboutArchiveRoute,
+  DocumentsRoute: DocumentsRoute,
+  EventsRoute: EventsRouteWithChildren,
+  GalleryRoute: GalleryRouteWithChildren,
+  LeadershipRoute: LeadershipRouteWithChildren,
   OurHistoryRoute: OurHistoryRouteWithChildren,
+  SearchRoute: SearchRoute,
   TimelineRoute: TimelineRouteWithChildren,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AlumniSlugRoute: AlumniSlugRoute,
   ArchiveCollectionRoute: ArchiveCollectionRoute,
+  AlumniIndexRoute: AlumniIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

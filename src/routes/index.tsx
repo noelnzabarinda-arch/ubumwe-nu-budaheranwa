@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { archiveImages } from "@/components/archive/images";
 import { SectionHeading, StoryCard, Contribution, SampleNotice } from "@/components/archive/shared";
 import { archiveHead, stories } from "@/lib/archive-data";
+import { useLanguage } from "@/i18n/useLanguage";
 export const Route = createFileRoute("/")({
   head: () =>
     archiveHead(
@@ -23,104 +24,84 @@ export const Route = createFileRoute("/")({
     ),
   component: Home,
 });
-const collections = [
-  {
-    title: "School History",
-    text: "The roots of our shared journey.",
-    icon: BookOpen,
-    slug: "history",
-  },
-  {
-    title: "Leadership",
-    text: "The people who helped guide GSP.",
-    icon: Landmark,
-    slug: "leadership",
-  },
-  { title: "Alumni", text: "A community beyond the classroom.", icon: Users, slug: "alumni" },
-  {
-    title: "Historical Documents",
-    text: "The records that hold our history.",
-    icon: FileText,
-    slug: "documents",
-  },
-  {
-    title: "Important Events",
-    text: "Moments to be remembered.",
-    icon: CalendarDays,
-    slug: "events",
-  },
-];
 function Home() {
+  const { t } = useLanguage();
+  const collections = [
+    { title: t("schoolHistoryTitle"), text: t("schoolHistoryText"), icon: BookOpen, slug: "history" },
+    { title: t("leadershipTitle"), text: t("leadershipText"), icon: Landmark, slug: "leadership" },
+    { title: t("alumniTitle"), text: t("alumniText"), icon: Users, slug: "alumni" },
+    { title: t("documentsTitle"), text: t("documentsText"), icon: FileText, slug: "documents" },
+    { title: t("eventsTitle"), text: t("eventsText"), icon: CalendarDays, slug: "events" },
+  ];
   return (
     <>
       <section className="home-hero">
         <img
           className="hero-image"
           src={archiveImages.hero}
-          alt="Illustrative archive of books and papers on a reading table"
+          alt="School history building"
           fetchPriority="high"
         />
         <div className="hero-shade" />
         <div className="container hero-content">
           <span className="eyebrow">
             <span className="gold-rule" />
-            PRESERVING OUR HERITAGE
+            {t("preservingHeritage")}
           </span>
           <h1>
-            The Story of GSP,
+            {t("heroTitleLine1")}
             <br />
-            Preserved for
+            {t("heroTitleLine2")}
             <br />
-            <em>Generations.</em>
+            <em>{t("heroTitleEmphasis")}</em>
           </h1>
           <p>
-            A school’s history is more than a collection of dates.
-            <br className="desktop-break" /> It is the people, the memories, and the journey we
-            share.
-            <br className="desktop-break" /> Welcome to the GSP Historical Archive.
+            {t("heroDescription1")}
+            <br className="desktop-break" /> {t("heroDescription2")}
+            <br className="desktop-break" /> {t("heroDescription3")}
           </p>
           <div className="hero-actions">
             <Button asChild variant="heritage">
               <Link to="/our-history">
-                Explore Our History <ArrowRight size={15} />
+                {t("exploreOurHistory")} <ArrowRight size={15} />
               </Link>
             </Button>
             <Button asChild variant="inverse">
-              <Link to="/archive/$collection" params={{ collection: "about" }}>
-                Discover the Archive <ArrowUpRight size={15} />
+              <Link to="/about-archive">
+                {t("discoverArchive")} <ArrowUpRight size={15} />
               </Link>
             </Button>
           </div>
         </div>
         <div className="hero-bottom container">
           <span>
-            <MapPinLabel /> HUYE, RWANDA
+            <MapPinLabel /> {t("huyeRwanda")}
           </span>
-          <span className="hero-image-caption">Illustrative archival still life</span>
-          <a href="#introduction" aria-label="Scroll to archive introduction">
+          <span className="hero-image-caption">{t("schoolHistoryCollection")}</span>
+          <a href="#introduction" aria-label={t("scrollToIntroduction")}>
             <MoveDown size={16} />
           </a>
         </div>
-        <span className="hero-side">A SHARED HERITAGE. A LASTING RECORD.</span>
+        <span className="hero-side">{t("sharedHeritageLastingRecord")}</span>
       </section>
       <div className="heritage-strip">
         <div className="container">
           <span>GROUPE SCOLAIRE DES PARENTS</span>
           <span className="strip-diamond">◆</span>
-          <span>Honouring our past. Connecting our generations.</span>
+          <span>{t("heritagePast")}</span>
           <span className="strip-est">
-            <ShieldCheck size={15} /> Rooted in memory. Guided by truth.
+            <ShieldCheck size={15} /> {t("heritageMemory")}
           </span>
         </div>
       </div>
       <section id="introduction" className="container introduction section-space">
         <div className="intro-image">
           <img
-            src={archiveImages.books}
-            alt="Illustrative books and papers prepared for preservation"
+            src={archiveImages.schoolCourtyard}
+            alt="School campus and courtyard"
             loading="lazy"
           />
-          <span className="photo-caption">Objects of memory · Illustrative image</span>
+          <span className="photo-caption">School history · Campus view</span>
           <div className="image-corner-mark">
             <BookOpen size={25} strokeWidth={1} />
           </div>
@@ -128,38 +109,36 @@ function Home() {
         <div className="intro-copy">
           <span className="eyebrow">
             <span className="gold-rule" />
-            WELCOME TO OUR DIGITAL ARCHIVE
+            {t("welcomeDigitalArchive")}
           </span>
           <h2>
-            Some stories deserve
+            {t("introTitle1")}
             <br />
-            to be <em>remembered.</em>
+            <em>{t("introTitleEmphasis")}</em>
           </h2>
           <p>
-            Every school leaves a mark. At Groupe Scolaire des Parents, that story belongs to the
-            students, educators, families, and community who have been part of its journey.
+            {t("introText1")}
           </p>
           <p>
-            This archive is a home for that shared memory — a place to collect, safeguard, and share
-            the verified history of GSP, in Huye, Rwanda.
+            {t("introText2")}
           </p>
-          <Link className="text-link" to="/archive/$collection" params={{ collection: "about" }}>
-            The purpose behind the archive <ArrowRight size={15} />
+          <Link className="text-link" to="/about-archive">
+            {t("archivePurposeLink")} <ArrowRight size={15} />
           </Link>
           <div className="intro-footnote">
             <ShieldCheck size={18} />
-            <span>Preserving with care. Documenting with integrity.</span>
+            <span>{t("preservingIntegrity")}</span>
           </div>
         </div>
       </section>
       <section className="featured-section section-space">
         <div className="container">
           <SectionHeading
-            eyebrow="STORIES FROM THE ARCHIVE"
-            title="A history made of many stories."
+            eyebrow={t("storiesEyebrow")}
+            title={t("storiesTitle")}
           >
             <Link className="text-link" to="/our-history">
-              View all stories <ArrowUpRight size={15} />
+              {t("viewAllStories")} <ArrowUpRight size={15} />
             </Link>
           </SectionHeading>
           <div className="story-grid">
@@ -171,27 +150,27 @@ function Home() {
         </div>
       </section>
       <section className="container timeline-section section-space">
-        <SectionHeading eyebrow="OUR JOURNEY THROUGH TIME" title="Looking back. Moving forward.">
+        <SectionHeading eyebrow={t("journeyEyebrow")} title={t("journeyTitle")}>
           <Link className="text-link" to="/archive/$collection" params={{ collection: "timeline" }}>
-            Explore Full Timeline <ArrowUpRight size={15} />
+            {t("exploreFullTimeline")} <ArrowUpRight size={15} />
           </Link>
         </SectionHeading>
         <div className="timeline-grid">
           {[
-            { n: "01", title: "Our beginnings", text: "The foundation of a shared vision." },
+            { n: "01", title: t("beginningTitle"), text: t("beginningText") },
             {
               n: "02",
-              title: "Growing together",
-              text: "The development of our school community.",
+              title: t("growingTitle"),
+              text: t("growingText"),
             },
             {
               n: "03",
-              title: "A continuing journey",
-              text: "Preserving our heritage for those to come.",
+              title: t("continuingTitle"),
+              text: t("continuingText"),
             },
           ].map((item) => (
             <div className="timeline-item" key={item.n}>
-              <span className="timeline-label">PERIOD TO BE VERIFIED</span>
+              <span className="timeline-label">{t("periodToBeVerified")}</span>
               <span className="timeline-dot" />
               <span className="timeline-number">{item.n}</span>
               <h3>{item.title}</h3>
@@ -200,12 +179,12 @@ function Home() {
           ))}
         </div>
         <p className="quiet-note">
-          Dates and milestones will be added after historical verification.
+          {t("datesVerifiedNote")}
         </p>
       </section>
       <section className="collections-section section-space">
         <div className="container">
-          <SectionHeading eyebrow="EXPLORE THE COLLECTIONS" title="Many windows into our past." />
+          <SectionHeading eyebrow={t("collectionsEyebrow")} title={t("collectionsTitle")} />
           <div className="collection-grid">
             {collections.map(({ icon: Icon, ...item }) =>
               item.slug === "history" ? (
@@ -235,31 +214,26 @@ function Home() {
       <section className="container media-section section-space">
         <div className="media-copy">
           <span className="eyebrow">
-            <span className="gold-rule" />A WINDOW INTO THE ARCHIVE
+            <span className="gold-rule" />{t("windowEyebrow")}
           </span>
-          <h2>Memories, in focus.</h2>
+          <h2>{t("memoriesTitle")}</h2>
           <p>
-            Photographs and moving images can bring a shared past closer. This space is reserved for
-            verified visual records of GSP.
+            {t("memoriesText")}
           </p>
           <Link to="/archive/$collection" params={{ collection: "gallery" }} className="text-link">
-            Explore the gallery <ArrowUpRight size={15} />
+            {t("exploreGallery")} <ArrowUpRight size={15} />
           </Link>
         </div>
         <div className="media-placeholder">
-          <img
-            src={archiveImages.pages}
-            alt="Illustrative blank archival notebook"
-            loading="lazy"
-          />
+          <img src={archiveImages.museumHall} alt="Museum collection hall" loading="lazy" />
           <div className="media-overlay">
             <span className="play-outline">
               <Play size={22} strokeWidth={1.2} />
             </span>
-            <h3>A space for our moving memories.</h3>
-            <span>Video collection forthcoming · No video available yet</span>
+            <h3>{t("movingMemories")}</h3>
+            <span>{t("videoForthcoming")}</span>
           </div>
-          <span className="image-note">ILLUSTRATIVE IMAGE</span>
+          <span className="image-note">{t("museumCollection")}</span>
         </div>
       </section>
       <Contribution />

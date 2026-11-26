@@ -28,8 +28,8 @@ function OurHistory() {
       <section className="page-hero">
         <img
           className="hero-image"
-          src={archiveImages.hero}
-          alt="Illustrative archival books and papers"
+          src={archiveImages.museumExterior}
+          alt="Museum exterior"
         />
         <div className="hero-shade" />
         <div className="container page-hero-content">
@@ -41,7 +41,7 @@ function OurHistory() {
           <span className="eyebrow">THE JOURNEY THAT CONNECTS US</span>
           <h1>Our History</h1>
           <p>A shared past. Many voices. One story worth preserving.</p>
-          <span className="banner-caption">Illustrative archival still life</span>
+          <span className="banner-caption">Museum and archive collection</span>
         </div>
       </section>
       <section className="container history-introduction section-space">
