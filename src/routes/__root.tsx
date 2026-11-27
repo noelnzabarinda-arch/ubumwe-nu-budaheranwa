@@ -14,6 +14,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { archiveStructuredData } from "../lib/seo";
 import { ArchiveHeader, ArchiveFooter } from "@/components/archive/shell";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { useLanguage } from "@/i18n/useLanguage";
@@ -91,12 +92,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
-    // Replace these placeholders with the app's name and description when first building the app.
-    // Each content route, / included, must still set its own head(). Never add og:image or
-    // twitter:image here: every page without its own would inherit the root's preview image.
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "application-name", content: "GSP Historical Archive" },
       { title: "GSP Historical Archive" },
       {
         name: "description",
@@ -104,12 +103,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Preserving the history and shared memory of Groupe Scolaire des Parents, Huye, Rwanda.",
       },
       { property: "og:title", content: "GSP Historical Archive" },
+      { property: "og:site_name", content: "GSP Historical Archive" },
       {
         property: "og:description",
         content: "The heritage of Groupe Scolaire des Parents, preserved for generations.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { "script:ld+json": archiveStructuredData },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -123,6 +124,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/logo.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/logo.png" },
     ],
   }),
   shellComponent: RootShell,

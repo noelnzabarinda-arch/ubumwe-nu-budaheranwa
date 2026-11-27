@@ -15,13 +15,29 @@ import { Button } from "@/components/ui/button";
 import { archiveImages } from "@/components/archive/images";
 import { SectionHeading, StoryCard, Contribution, SampleNotice } from "@/components/archive/shared";
 import { archiveHead, stories } from "@/lib/archive-data";
+import { archiveLogoUrl, siteUrl } from "@/lib/seo";
 import { useLanguage } from "@/i18n/useLanguage";
 export const Route = createFileRoute("/")({
-  head: () =>
-    archiveHead(
+  head: () => {
+    const homeHead = archiveHead(
       "Home",
       "Explore the shared heritage of Groupe Scolaire des Parents in Huye, Rwanda. A digital archive preserving history, memories, and records for future generations.",
-    ),
+    );
+
+    return {
+      ...homeHead,
+      meta: [
+        ...homeHead.meta,
+        ...(archiveLogoUrl
+          ? [
+              { property: "og:image", content: archiveLogoUrl },
+              { name: "twitter:image", content: archiveLogoUrl },
+            ]
+          : []),
+      ],
+      links: siteUrl ? [{ rel: "canonical", href: `${siteUrl}/` }] : [],
+    };
+  },
   component: Home,
 });
 function Home() {

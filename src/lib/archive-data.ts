@@ -109,11 +109,16 @@ export const collectionNames: Record<string, string> = {
   contribute: "Contribute to the Archive",
 };
 export function archiveHead(title: string, description: string) {
+  const pageTitle =
+    title === "Home"
+      ? "GSP Historical Archive | Groupe Scolaire des Parents, Huye"
+      : `${title} | GSP Historical Archive`;
+
   return {
     meta: [
-      { title: `${title} | GSP Historical Archive` },
+      { title: pageTitle },
       { name: "description", content: description },
-      { property: "og:title", content: `${title} | GSP Historical Archive` },
+      { property: "og:title", content: pageTitle },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

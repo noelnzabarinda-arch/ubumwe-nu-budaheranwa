@@ -275,7 +275,7 @@ function StoryForm({
   };
 
   const submit = (action: "draft" | "verify" | "publish") => {
-    const required =
+    const required: [string, string][] =
       action === "draft"
         ? [
             ["Story title", values.title],
@@ -631,14 +631,17 @@ export function HistoryManagementPage() {
   };
 
   const togglePublication = (story: Story) => {
-    if (story.verificationStatus !== "Verified" || !hasPublishingRequirements(story)) {
+    const nextStatus: PublicationStatus =
+      story.publicationStatus === "Published" ? "Draft" : "Published";
+    if (
+      nextStatus === "Published" &&
+      (story.verificationStatus !== "Verified" || !hasPublishingRequirements(story))
+    ) {
       setFeedback(
         "A story must be verified and have complete required content and references before it can be published.",
       );
       return;
     }
-    const nextStatus: PublicationStatus =
-      story.publicationStatus === "Published" ? "Draft" : "Published";
     const action = nextStatus === "Published" ? "Publish" : "Unpublish";
     if (!window.confirm(`${action} "${story.title}"?`)) return;
     setStories((current) =>
@@ -763,7 +766,14 @@ export function HistoryManagementPage() {
                     }}
                   />
                   {search && (
-                    <button type="button" aria-label="Clear search" onClick={() => setSearch("")}>
+                    <button
+                      type="button"
+                      aria-label="Clear search"
+                      onClick={() => {
+                        setSearch("");
+                        setPage(1);
+                      }}
+                    >
                       <X size={14} />
                     </button>
                   )}
@@ -919,8 +929,8 @@ export function HistoryManagementPage() {
                                     : "Complete references and verify before publishing"
                               }
                               disabled={
-                                story.verificationStatus !== "Verified" ||
-                                (story.publicationStatus !== "Published" &&
+                                story.publicationStatus !== "Published" &&
+                                (story.verificationStatus !== "Verified" ||
                                   !hasPublishingRequirements(story))
                               }
                               onClick={() => togglePublication(story)}
