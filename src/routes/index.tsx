@@ -35,7 +35,10 @@ export const Route = createFileRoute("/")({
             ]
           : []),
       ],
-      links: siteUrl ? [{ rel: "canonical", href: `${siteUrl}/` }] : [],
+      links: [
+        { rel: "preload", as: "image", href: archiveImages.hero },
+        ...(siteUrl ? [{ rel: "canonical", href: `${siteUrl}/` }] : []),
+      ],
     };
   },
   component: Home,
